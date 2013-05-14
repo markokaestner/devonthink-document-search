@@ -6,6 +6,19 @@
 	<string>com.markokaestner.devonthinksearch</string>
 	<key>connections</key>
 	<dict>
+		<key>1220BFFD-3CB7-4BDF-BE34-127AEF70127C</key>
+		<array/>
+		<key>1DDAB52E-A468-49A3-972A-0B249E1B9C0B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1220BFFD-3CB7-4BDF-BE34-127AEF70127C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>AEEE74EC-013E-4E75-9613-B680942F4B57</key>
 		<array>
 			<dict>
@@ -28,6 +41,14 @@
 	<string>DEVONthink Search</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict/>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>30CB87BB-3A5B-4AFB-80FF-6049286B6513</string>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -109,21 +130,107 @@
 		</dict>
 		<dict>
 			<key>config</key>
-			<dict/>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>devondb</string>
+				<key>script</key>
+				<string>./search "{query}" 2&gt;&amp;1 | tee devon.log</string>
+				<key>title</key>
+				<string>DEVONthink Search in Database</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openfile</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>30CB87BB-3A5B-4AFB-80FF-6049286B6513</string>
+			<string>1DDAB52E-A468-49A3-972A-0B249E1B9C0B</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>. workflowHandler.sh
+
+QUERY="{query}"
+
+if [ -f "$QUERY" ]; then
+	open "$QUERY"
+else
+	setPref "searchdb" "{query}" 0
+	SEARCHTERM=$(getPref "searchterm" 0)
+
+	/usr/bin/osascript -e "tell application \"Alfred 2\" to search \"devondb $SEARCHTERM\""
+fi</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>1220BFFD-3CB7-4BDF-BE34-127AEF70127C</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>devondb!</string>
+				<key>runningsubtext</key>
+				<string>Searching available databases</string>
+				<key>script</key>
+				<string>. workflowHandler.sh
+DATADIR=$(getDataDir)
+./setup &gt; "${DATADIR}/databases"
+DBCOUNT=$(cat "${DATADIR}/databases" | wc -l)
+addResult "1" "" "DEVONthink database list updated" "$DBCOUNT databases found" "icon.png" "no"
+getXMLResults</string>
+				<key>title</key>
+				<string>Refresh DEVONthink Database List</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8F78B728-AEE3-4FDB-AC4D-57D4AEE5485D</string>
 		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>1220BFFD-3CB7-4BDF-BE34-127AEF70127C</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>1DDAB52E-A468-49A3-972A-0B249E1B9C0B</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
 		<key>30CB87BB-3A5B-4AFB-80FF-6049286B6513</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>8F78B728-AEE3-4FDB-AC4D-57D4AEE5485D</key>
+		<dict>
+			<key>ypos</key>
+			<real>230</real>
 		</dict>
 		<key>AEEE74EC-013E-4E75-9613-B680942F4B57</key>
 		<dict>
