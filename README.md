@@ -27,4 +27,6 @@ Usage
 
 * **`devondb!`** - Refresh database list
 
+The association between database names and uuids can only be obtained via AppleScript. This is done automatically if you run the `devondb` command for the first time. The information is then cached for better performance. If you add a new DEVONthink database later on, you'll have to run the `devondb!` command to refresh the database list.
+
 ![](https://dl.dropboxusercontent.com/u/5453663/devondb!.png)
