@@ -191,6 +191,9 @@ fi</string>
 				<key>script</key>
 				<string>. workflowHandler.sh
 DATADIR=$(getDataDir)
+if [ ! -d "$DATADIR" ]; then
+    mkdir -p "$DATADIR"
+fi
 ./setup &gt; "${DATADIR}/databases"
 DBCOUNT=$(cat "${DATADIR}/databases" | wc -l)
 addResult "1" "" "DEVONthink database list updated" "$DBCOUNT databases found" "icon.png" "no"
