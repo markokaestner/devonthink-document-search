@@ -3,7 +3,8 @@
 QUERY="$1"
 UUID=$(date +"%s")
 DB=$(getPref "searchdb" 0)
-DBFILE="$(getDataDir)/databases"
+DATADIR="$(getDataDir)"
+DBFILE="${DATADIR}/databases"
 
 setupDatabases() {
 	./setup > "$DBFILE"
@@ -49,6 +50,10 @@ resetWorkflow() {
 }
 
 main() {
+	if [ ! -d "$DATADIR" ]; then
+		mkdir -p "$DATADIR"
+	fi
+
 	if [ ! -f "$DBFILE" ]; then
 		setupDatabases
 	fi
